@@ -7,6 +7,12 @@ import locale from 'element-ui/lib/locale/lang/en'
 
 Vue.use(ElementUI, {locale})
 
+import VueResizeText from 'vue-resize-text'
+Vue.use(VueResizeText)
+
+import fullscreen from 'vue-fullscreen'
+Vue.use(fullscreen)
+
 Vue.config.productionTip = false
 
 new Vue({
