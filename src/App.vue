@@ -5,8 +5,8 @@
 
     <div id="ClickMeAlice" v-on:click="controlVisible = true"></div>
 
-    <el-dialog title="Control - Select Test Card" :visible.sync="controlVisible">
-      <control :config="config"></control>
+    <el-dialog title="Control - Select Test Card" :visible.sync="controlVisible" width="666px">
+      <control :config="config" class="controlDialog"></control>
     </el-dialog>
 
 
@@ -45,5 +45,8 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
+}
+.controlDialog {
+  min-width: 625px;
 }
 </style>
