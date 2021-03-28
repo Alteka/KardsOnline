@@ -60,7 +60,7 @@
             <circle cx="0" cy="0" r="25" />
           </clipPath>
           <transition name="fade">
-            <g v-if="config.animated" id="spinny-radar" >
+            <g v-if="config.animated && !isMobileSafari" id="spinny-radar" >
                 <animateTransform attributeName="transform" type="rotate" dur="4s" from="0" to="360" repeatCount="indefinite"/>
                 <path d='M0,0 L25,0 A25,25 0 0,1 24.9,2.18z' />
             </g>
@@ -192,12 +192,19 @@
 
 <script>
 import Swatch from "./Swatch"
+import { isMobileSafari } from 'mobile-device-detect'
+
 export default {
   components: { Swatch },
   props: {
     config: Object,
     cardSize: String,
     time: String
+  },
+  data: function() {
+    return {
+      isMobileSafari: isMobileSafari
+    }
   },
   watch: {
       config: {
