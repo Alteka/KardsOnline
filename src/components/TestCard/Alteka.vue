@@ -1,6 +1,5 @@
 <template>
   <div id="alteka" :class="{gradient : config.alteka.gradient}" :style="{background : config.alteka.bg}" >
-    <resize-observer @notify="handleResize" />
     <div class="grid">
       <div class="gridQuadrant gridtopleft" :style="grid"></div>
       <div class="gridQuadrant gridtopright" :style="grid"></div>
@@ -324,11 +323,20 @@ export default {
     }
   },
   mounted: function() {
+    let vm = this
     let size = {
       width: document.getElementById("alteka").getBoundingClientRect().width,
       height: document.getElementById("alteka").getBoundingClientRect().height
     };
     this.handleResize(size);
+
+    window.addEventListener('resize', function() {
+        let size = {
+      width: document.getElementById("alteka").getBoundingClientRect().width,
+      height: document.getElementById("alteka").getBoundingClientRect().height
+    };
+    vm.handleResize(size);
+      })
   }
 }
 </script>
