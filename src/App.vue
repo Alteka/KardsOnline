@@ -4,12 +4,26 @@
   
       <test-card :config="config" @click="alert('bob')"></test-card>
 
-      <div id="ClickMeAlice" v-on:click="controlVisible = true"></div>
+      <div id="ClickMeAlice" v-on:click="controlVisible = true" @mousemove="mousemove"></div>
 
+      <transition name="fade">
+        <div id="overlay" v-if="showOverlay">
+          Kards Online<br /><br />
+          <el-button round type="success" size="small" v-on:click="controlVisible = true">Show Controls</el-button>
+        </div>
+      </transition>
 
-
-      <el-dialog title="Alteka Kards Online - Control" :visible.sync="controlVisible" width="666px"> 
+      <el-dialog :visible.sync="controlVisible" width="666px"> 
         <el-form ref="form" :model="config" label-width="120px" size="small">
+          <el-row style="text-align: center; font-size: 125%;">
+            <el-col :span="5"><img src="./assets/icon.png" width="80px"/><br />Kards Online</el-col>
+            <el-col :span="14">
+              <el-link type="success" href="https://alteka.solutions/kards">Get the desktop app</el-link><br /><br />
+              <el-button type="success" round v-on:click="toggleFullscreen" v-if="!fullscreen"><i class="fas fa-expand-arrows-alt"></i> Go Fullscreen</el-button>
+              <el-button type="danger" round v-on:click="toggleFullscreen" v-else><i class="fas fa-compress-arrows-alt"></i> Stop Fullscreen</el-button>
+            </el-col>
+            <el-col :span="5"><a href="https://alteka.solutions"><img src="./assets/logo.png" width="140px"/></a></el-col>
+          </el-row>
         <el-divider content-position="center">Select Test Card</el-divider>
         <el-row style="margin-left: 16px; margin-right: 16px;">
           <el-tabs type="border-card"  v-model="config.cardType" :stretch="true" style="height: 165px;">
@@ -54,13 +68,6 @@
           </el-col>
         </el-row>
 
-        <el-row>
-          <el-col :span="8">
-            <el-button v-on:click="toggleFullscreen" v-if="!fullscreen"><i class="fas fa-expand-arrows-alt"></i> Go Fullscreen</el-button>
-            <el-button v-on:click="toggleFullscreen" v-else><i class="fas fa-compress-arrows-alt"></i> Stop Fullscreen</el-button>
-          </el-col>
-        </el-row>
-
         </el-form>
       </el-dialog>
     </fullscreen>
@@ -90,13 +97,21 @@ export default {
       },
     toggleFullscreen: function() {
       this.$refs['fullscreen'].toggle()
+    },
+    mousemove: function() {
+      let vm = this;
+      this.showOverlay = true
+      clearTimeout(this.mouseMoveTimer)
+      this.mouseMoveTimer = setTimeout(function(){ vm.showOverlay = false }, 3000);
     }
   },
   data: function() { 
       return {
         config: require('./defaultConfig.json'),
         controlVisible: true,
-        fullscreen: false
+        fullscreen: false,
+        showOverlay: false,
+        mouseMoveTimer: null
       }
     },
     mounted: function() {
@@ -130,17 +145,18 @@ export default {
   right: 0;
   bottom: 0;
 }
- body {
-  font-family: Sansation, Helvetica, sans-serif;
-  overflow: hidden !important;
-}
-.logo {
-  margin-top: 10px;
-  margin-bottom: 0px;
-  font-family: Sansation;
-}
 .green {
   color: #6ab42f;
   margin-right: 5px;
+}
+#overlay {
+  position: absolute;
+  width: 150px;
+  height: 75px;
+  top: 30px;
+  left: 30px;
+  background: rgba(255,255,255,0.666);
+  border-radius: 10px;
+  text-align: center;
 }
 </style>
