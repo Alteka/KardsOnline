@@ -2,6 +2,9 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+      
+<el-divider content-position="center">Select Card Type</el-divider>
+
   </div>
 </template>
 
