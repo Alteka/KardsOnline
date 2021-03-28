@@ -15,10 +15,10 @@
 
       <el-dialog :visible.sync="controlVisible" width="666px"> 
         <el-form ref="form" :model="config" label-width="120px" size="small">
-          <el-row style="text-align: center; font-size: 125%;">
-            <el-col :span="5"><img src="./assets/icon.png" width="80px"/><br />Kards Online</el-col>
+          <el-row style="text-align: center; font-size: 150%;">
+            <el-col :span="5"><img src="./assets/icon.png" width="80px"/></el-col>
             <el-col :span="14">
-              <el-link type="success" href="https://alteka.solutions/kards">Get the desktop app</el-link><br /><br />
+              <p style="margin-bottom: 10px; margin-top: 0;">Kards Online</p>
               <el-button type="success" round v-on:click="toggleFullscreen" v-if="!fullscreen"><i class="fas fa-expand-arrows-alt"></i> Go Fullscreen</el-button>
               <el-button type="danger" round v-on:click="toggleFullscreen" v-else><i class="fas fa-compress-arrows-alt"></i> Stop Fullscreen</el-button>
             </el-col>
@@ -69,6 +69,10 @@
         </el-row>
 
         </el-form>
+        <footer style="font-size: 85%; text-align: center;">
+          <el-link type="success" href="https://alteka.solutions/kards"><i class="fas fa-link"></i> Get the free desktop app, with more features and customisation!</el-link><br />
+          <i class="fas fa-keyboard green"></i> M, I, C, F and 1-6 are also useful keyboard shortcuts 🙂
+          </footer>
       </el-dialog>
     </fullscreen>
   </div>
@@ -118,7 +122,7 @@ export default {
       let vm = this;
       Mousetrap.bind('m', function() { vm.config.animated = !vm.config.animated });
       Mousetrap.bind('i', function() { vm.config.showInfo = !vm.config.showInfo });
-      Mousetrap.bind('c', function() { vm.controlVisible = !vm.controlVisible });
+      Mousetrap.bind(['c', 'space'], function() { vm.controlVisible = !vm.controlVisible });
       Mousetrap.bind('f', function() { vm.$refs['fullscreen'].toggle() });
       Mousetrap.bind(['1', 'a'], function() { vm.config.cardType = 'alteka' });
       Mousetrap.bind(['2', 'b'], function() { vm.config.cardType = 'bars' });
@@ -155,6 +159,7 @@ export default {
   height: 75px;
   top: 30px;
   left: 30px;
+  padding: 5px;
   background: rgba(255,255,255,0.666);
   border-radius: 10px;
   text-align: center;
