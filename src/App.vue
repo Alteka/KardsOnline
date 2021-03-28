@@ -7,9 +7,11 @@
       <div id="ClickMeAlice" v-on:click="controlVisible = true" @mousemove="mousemove"></div>
 
       <transition name="fade">
-        <div id="overlay" v-if="showOverlay">
-          Kards Online<br /><br />
-          <el-button round type="success" size="small" v-on:click="controlVisible = true">Show Controls</el-button>
+        <div id="overlay" v-if="showOverlay && !isMobile">
+          <img src="./assets/logo.png" width="140px" />
+          <p style="font-size: 150%; margin-top: 0px; margin-bottom: 10px;">Kards Online</p>
+          <el-button round type="success" v-on:click="controlVisible = true"><i class="fas fa-cogs"></i> Show Controls</el-button>
+          <p style="font-size: 80%;">You can also just click anywhere...</p>
         </div>
       </transition>
 
@@ -88,6 +90,7 @@ import ControlAlteka from './components/ControlAlteka.vue'
 import ControlAudioSync from './components/ControlAudioSync.vue'
 
 var Mousetrap = require('mousetrap');
+import { isMobile } from 'mobile-device-detect'
 
 export default {
   name: 'App',
@@ -115,7 +118,8 @@ export default {
         controlVisible: true,
         fullscreen: false,
         showOverlay: false,
-        mouseMoveTimer: null
+        mouseMoveTimer: null,
+        isMobile: isMobile
       }
     },
     mounted: function() {
@@ -155,13 +159,12 @@ export default {
 }
 #overlay {
   position: absolute;
-  width: 150px;
-  height: 75px;
+  width: 250px;
   top: 30px;
-  left: 30px;
+  right: 30px;
   padding: 5px;
-  background: rgba(255,255,255,0.666);
-  border-radius: 10px;
+  background: rgba(255,255,255,1.0);
+  border-radius: 8px;
   text-align: center;
 }
 </style>
