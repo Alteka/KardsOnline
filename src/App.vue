@@ -1,31 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-      
-<el-divider content-position="center">Select Card Type</el-divider>
-
+    <test-card :config="config"></test-card>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TestCard from './components/TestCard.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    TestCard
+  },
+  data: function() { 
+      return {
+        config: require('./defaultConfig.json')
+      }
+    }
 }
 </script>
 
 <style>
+@font-face {
+  font-family: Sansation;
+  src: url("~@/assets/Sansation-Regular.ttf");
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: 'Sansation', Helvetica, Arial, sans-serif;
 }
 </style>
