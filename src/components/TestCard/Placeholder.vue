@@ -3,6 +3,7 @@
     <transition name="fade">
       <div id="gradient" v-if="config.placeholder.gradient"></div>
     </transition>
+
     <div v-resize-text="{ratio:1, minFontSize: '10px', maxFontSize: '500px'}" class="name" :style="{ color:config.placeholder.fg }">
       <transition name="fade">
         <span v-if="config.placeholder.icon" style="font-size: 200%;" class="fas" :class="config.placeholder.icon"></span>
@@ -67,6 +68,7 @@ import ResizeText from 'vue-resize-text'
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    max-height: 85%;
   }
   .name span {
     font-size: 1%;
