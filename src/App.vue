@@ -73,7 +73,7 @@ import ControlPlaceholder from './components/ControlPlaceholder.vue'
 import ControlAlteka from './components/ControlAlteka.vue'
 import ControlAudioSync from './components/ControlAudioSync.vue'
 
-// import fullscreen from 'vue-fullscreen'
+var Mousetrap = require('mousetrap');
 
 export default {
   name: 'App',
@@ -95,6 +95,19 @@ export default {
         controlVisible: true,
         fullscreen: false
       }
+    },
+    mounted: function() {
+      let vm = this;
+      Mousetrap.bind('m', function() { vm.config.animated = !vm.config.animated });
+      Mousetrap.bind('i', function() { vm.config.showInfo = !vm.config.showInfo });
+      Mousetrap.bind('c', function() { vm.controlVisible = !vm.controlVisible });
+      Mousetrap.bind('f', function() { vm.$refs['fullscreen'].toggle() });
+      Mousetrap.bind('1', function() { vm.config.cardType = 'alteka' });
+      Mousetrap.bind('2', function() { vm.config.cardType = 'bars' });
+      Mousetrap.bind('3', function() { vm.config.cardType = 'grid' });
+      Mousetrap.bind('4', function() { vm.config.cardType = 'ramp' });
+      Mousetrap.bind('5', function() { vm.config.cardType = 'placeholder' });
+      Mousetrap.bind('6', function() { vm.config.cardType = 'audioSync' });
     }
 }
 </script>
