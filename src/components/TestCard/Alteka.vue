@@ -212,11 +212,13 @@ export default {
           if (val.alteka != oldVal.alteka) {
             let vm = this
             setTimeout(function(){
-              let size = {
-                width: document.getElementById("alteka").getBoundingClientRect().width,
-                height: document.getElementById("alteka").getBoundingClientRect().height
+              if (vm.config.cardType == 'alteka') {
+                let size = {
+                  width: document.getElementById("alteka").getBoundingClientRect().width,
+                  height: document.getElementById("alteka").getBoundingClientRect().height
+                }
+                vm.handleResize(size)
               }
-              vm.handleResize(size)
             }, 250)
             
           }
@@ -338,11 +340,13 @@ export default {
     this.handleResize(size);
 
     window.addEventListener('resize', function() {
-        let size = {
-      width: document.getElementById("alteka").getBoundingClientRect().width,
-      height: document.getElementById("alteka").getBoundingClientRect().height
-    };
-    vm.handleResize(size);
+      if (vm.config.cardType == 'alteka') {
+          let size = {
+            width: document.getElementById("alteka").getBoundingClientRect().width,
+            height: document.getElementById("alteka").getBoundingClientRect().height
+          }
+          vm.handleResize(size)
+        }
       })
   }
 }
