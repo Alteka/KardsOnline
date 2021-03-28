@@ -55,7 +55,10 @@
         </el-row>
 
         <el-row>
-        <el-button v-on:click="toggleFullscreen"><i class="fas fa-expand-arrows-alt" v-if="!fullscreen"></i><i v-else class="fas fa-compress-arrows-alt"></i> Fullscreen</el-button>
+          <el-col :span="8">
+            <el-button v-on:click="toggleFullscreen" v-if="!fullscreen"><i class="fas fa-expand-arrows-alt"></i> Go Fullscreen</el-button>
+            <el-button v-on:click="toggleFullscreen" v-else><i class="fas fa-compress-arrows-alt"></i> Stop Fullscreen</el-button>
+          </el-col>
         </el-row>
 
         </el-form>
@@ -102,12 +105,12 @@ export default {
       Mousetrap.bind('i', function() { vm.config.showInfo = !vm.config.showInfo });
       Mousetrap.bind('c', function() { vm.controlVisible = !vm.controlVisible });
       Mousetrap.bind('f', function() { vm.$refs['fullscreen'].toggle() });
-      Mousetrap.bind('1', function() { vm.config.cardType = 'alteka' });
-      Mousetrap.bind('2', function() { vm.config.cardType = 'bars' });
-      Mousetrap.bind('3', function() { vm.config.cardType = 'grid' });
-      Mousetrap.bind('4', function() { vm.config.cardType = 'ramp' });
-      Mousetrap.bind('5', function() { vm.config.cardType = 'placeholder' });
-      Mousetrap.bind('6', function() { vm.config.cardType = 'audioSync' });
+      Mousetrap.bind(['1', 'a'], function() { vm.config.cardType = 'alteka' });
+      Mousetrap.bind(['2', 'b'], function() { vm.config.cardType = 'bars' });
+      Mousetrap.bind(['3', 'g'], function() { vm.config.cardType = 'grid' });
+      Mousetrap.bind(['4', 'r'], function() { vm.config.cardType = 'ramp' });
+      Mousetrap.bind(['5', 'n'], function() { vm.config.cardType = 'placeholder' });
+      Mousetrap.bind(['6', 's', 'v'], function() { vm.config.cardType = 'audioSync' });
     }
 }
 </script>
