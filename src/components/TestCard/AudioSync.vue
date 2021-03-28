@@ -39,14 +39,14 @@
         <span v-resize-text="{ratio:1.5, maxFontSize: '50px'}" style="text-align: right" v-if="config.showInfo">{{ cardSize }}</span>
       </transition>
     </div>
-
-  <transition name="fade">
-      <div id="bottomText" class="textRow" v-if="config.showInfo">
-        <span v-resize-text="{ratio:2, maxFontSize: '32px'}" style="text-align: left"><i class="fas fa-volume-up" /> {{ description }}</span>
-        <span v-resize-text="{ratio:2, maxFontSize: '32px'}" style="text-align: right">{{ config.name }}</span>
-      </div>
-  </transition>
-
+  
+    <div id="bottomText" class="textRow" >
+      <span v-resize-text="{ratio:2, maxFontSize: '32px'}" style="text-align: left">Alteka Kards</span>
+      <transition name="fade">
+        <span v-resize-text="{ratio:2, maxFontSize: '32px'}" style="text-align: right" v-if="config.showInfo">{{ config.name }}</span>
+      </transition>
+    </div>
+  
   </div>
 </template>
 
@@ -61,41 +61,9 @@ export default {
   },
   data: function() {
     return {
-      description: "Default Interface",
       rates: ['24', '25', '29-97', '30', '50', '59-94', '60' ]
     }
-  },
-  watch: {
-      config: {
-        handler: function (val) { 
-          this.updateDeviceName(val)
-         },
-        deep: true
-      },
-    },
-    methods: {
-      updateDeviceName: function(val) {
-        for (const rate in this.rates) {
-          let element = document.getElementById('vt' + rate)
-          if (element !== null) {
-            element.setSinkId(val.audioSync.deviceId)
-          }
-        }
-        
-        navigator.mediaDevices.enumerateDevices().then((devices) => {
-          devices = devices.filter(device => device.kind === 'audiooutput')
-          for (const dev of devices) {
-            if (dev.deviceId == val.audioSync.deviceId) {
-              this.description = dev.label
-            }
-          }
-        })
-      }
-    },
-    mounted: function() {
-      document.getElementById('vt24').setSinkId(this.config.audioSync.deviceId)
-      this.updateDeviceName(this.config)
-    }
+  }
 }
 </script>
 
