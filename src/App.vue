@@ -2,7 +2,7 @@
   <div id="app">
     <fullscreen ref="fullscreen" @change="fullscreenChange">
   
-      <test-card :config="config" @click="alert('bob')"></test-card>
+      <test-card :config="config"></test-card>
 
       <div id="ClickMeAlice" v-on:click="controlVisible = true" @mousemove="mousemove"></div>
 
@@ -99,11 +99,11 @@ export default {
   },
   methods: {
     fullscreenChange: function(fullscreen) {
-      console.log('callback!', fullscreen)
         this.fullscreen = fullscreen
       },
     toggleFullscreen: function() {
       this.$refs['fullscreen'].toggle()
+      this.$gtag.event('toggleFullscreen')
     },
     mousemove: function() {
       let vm = this;
@@ -119,7 +119,8 @@ export default {
         fullscreen: false,
         showOverlay: false,
         mouseMoveTimer: null,
-        isMobile: isMobile
+        isMobile: isMobile,
+        prevCard: null
       }
     },
     mounted: function() {
@@ -127,14 +128,26 @@ export default {
       Mousetrap.bind('m', function() { vm.config.animated = !vm.config.animated });
       Mousetrap.bind('i', function() { vm.config.showInfo = !vm.config.showInfo });
       Mousetrap.bind(['c', 'space'], function() { vm.controlVisible = !vm.controlVisible });
-      Mousetrap.bind('f', function() { vm.$refs['fullscreen'].toggle() });
+      Mousetrap.bind('f', vm.toggleFullscreen());
       Mousetrap.bind(['1', 'a'], function() { vm.config.cardType = 'alteka' });
       Mousetrap.bind(['2', 'b'], function() { vm.config.cardType = 'bars' });
       Mousetrap.bind(['3', 'g'], function() { vm.config.cardType = 'grid' });
       Mousetrap.bind(['4', 'r'], function() { vm.config.cardType = 'ramp' });
       Mousetrap.bind(['5', 'n'], function() { vm.config.cardType = 'placeholder' });
       Mousetrap.bind(['6', 's', 'v'], function() { vm.config.cardType = 'audioSync' });
-    }
+    },
+    watch: {
+      config: {
+        handler: function (val) { 
+          if (val.cardType != this.prevCard) {
+            console.log('card type now: ', val.cardType)
+            this.$gtag.pageview({ page_path: val.cardType, page_title: val.cardType })
+            this.prevCard = val.cardType
+          }
+        },
+        deep: true
+      },
+    },
 }
 </script>
 

@@ -13,6 +13,11 @@ Vue.use(VueResizeText)
 import fullscreen from 'vue-fullscreen'
 Vue.use(fullscreen)
 
+import VueGtag from "vue-gtag";
+Vue.use(VueGtag, {
+  config: { id: "G-GXP23F8Z9D" }
+});
+
 Vue.config.productionTip = false
 
 new Vue({
