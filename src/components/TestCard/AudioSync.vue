@@ -22,13 +22,24 @@
       <div class="arrowLeft"></div>
     </div>
 
-    <video id="vt24" v-if="config.audioSync.rate == 24" src="~@/assets/audiosync/24.webm" loop autoplay class="vt" />
-    <video id="vt25" v-if="config.audioSync.rate == 25" src="~@/assets/audiosync/25.webm" loop autoplay class="vt" />
-    <video id="vt29-97" v-if="config.audioSync.rate == 29.97" src="~@/assets/audiosync/29.97.webm" loop autoplay class="vt" />
-    <video id="vt30" v-if="config.audioSync.rate == 30" src="~@/assets/audiosync/30.webm" loop autoplay class="vt" />
-    <video id="vt50" v-if="config.audioSync.rate == 50" src="~@/assets/audiosync/50.webm" loop autoplay class="vt" />
-    <video id="vt59-94" v-if="config.audioSync.rate == 59.94" src="~@/assets/audiosync/59.94.webm" loop autoplay class="vt" />
-    <video id="vt60" v-if="config.audioSync.rate == 60" src="~@/assets/audiosync/60.webm" loop autoplay class="vt" />
+
+    <video id="vt24" v-if="!isSafari && config.audioSync.rate == 24" src="~@/assets/audiosync/24.webm" loop autoplay class="vt" />
+    <video id="vt25" v-if="!isSafari && config.audioSync.rate == 25" src="~@/assets/audiosync/25.webm" loop autoplay class="vt" />
+    <video id="vt29-97" v-if="!isSafari && config.audioSync.rate == 29.97" src="~@/assets/audiosync/29.97.webm" loop autoplay class="vt" />
+    <video id="vt30" v-if="!isSafari && config.audioSync.rate == 30" src="~@/assets/audiosync/30.webm" loop autoplay class="vt" />
+    <video id="vt50" v-if="!isSafari && config.audioSync.rate == 50" src="~@/assets/audiosync/50.webm" loop autoplay class="vt" />
+    <video id="vt59-94" v-if="!isSafari && config.audioSync.rate == 59.94" src="~@/assets/audiosync/59.94.webm" loop autoplay class="vt" />
+    <video id="vt60" v-if="!isSafari && config.audioSync.rate == 60" src="~@/assets/audiosync/60.webm" loop autoplay class="vt" />
+
+    <video id="vt24mac" v-if="isSafari && config.audioSync.rate == 24" src="~@/assets/audiosync/24.mp4" loop autoplay class="vt" />
+    <video id="vt25mac" v-if="isSafari && config.audioSync.rate == 25" src="~@/assets/audiosync/25.mp4" loop autoplay class="vt" />
+    <video id="vt29-97mac" v-if="isSafari && config.audioSync.rate == 29.97" src="~@/assets/audiosync/29.97.mp4" loop autoplay class="vt" />
+    <video id="vt30mac" v-if="isSafari && config.audioSync.rate == 30" src="~@/assets/audiosync/30.mp4" loop autoplay class="vt" />
+    <video id="vt50mac" v-if="isSafari && config.audioSync.rate == 50" src="~@/assets/audiosync/50.mp4" loop autoplay class="vt" />
+    <video id="vt59-94mac" v-if="isSafari && config.audioSync.rate == 59.94" src="~@/assets/audiosync/59.94.mp4" loop autoplay class="vt" />
+    <video id="vt60mac" v-if="isSafari && config.audioSync.rate == 60" src="~@/assets/audiosync/60.mp4" loop autoplay class="vt" />
+
+<span v-if="isSafari">HELLO</span>
 
     <div id="topText" class="textRow">
       <transition name="fade">
@@ -52,6 +63,7 @@
 
 <script>
 import ResizeText from 'vue-resize-text'
+
 export default {
   directives: { ResizeText },
   props: {
@@ -61,7 +73,8 @@ export default {
   },
   data: function() {
     return {
-      rates: ['24', '25', '29-97', '30', '50', '59-94', '60' ]
+      rates: ['24', '25', '29-97', '30', '50', '59-94', '60' ],
+      isSafari: (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1)
     }
   }
 }
