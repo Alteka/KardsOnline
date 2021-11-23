@@ -9,7 +9,7 @@
       <transition name="fade">
         <div id="overlay" v-if="showOverlay && !isMobile">
           <img src="./assets/logo.png" width="140px" />
-          <p style="font-size: 150%; margin-top: 0px; margin-bottom: 10px;">Kards Online</p>
+          <p style="font-size: 150%; margin-top: 0px; margin-bottom: 10px;">Kards Online <span style="font-size: 50%;">v1.0</span></p>
           <el-button round type="success" v-on:click="controlVisible = true"><i class="fas fa-cogs"></i> Show Controls</el-button>
           <p style="font-size: 80%;">You can also just click anywhere...</p>
         </div>
@@ -20,7 +20,7 @@
           <el-row style="text-align: center; font-size: 150%;">
             <el-col :span="5"><img src="./assets/icon.png" width="80px"/></el-col>
             <el-col :span="14">
-              <p style="margin-bottom: 10px; margin-top: 0;">Kards Online</p>
+              <p style="margin-bottom: 10px; margin-top: 0;">Kards Online <span style="font-size: 50%;">v1.0</span></p>
               <el-button type="success" round v-on:click="toggleFullscreen" v-if="!fullscreen"><i class="fas fa-expand-arrows-alt"></i> Go Fullscreen</el-button>
               <el-button type="danger" round v-on:click="toggleFullscreen" v-else><i class="fas fa-compress-arrows-alt"></i> Stop Fullscreen</el-button>
             </el-col>
