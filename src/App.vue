@@ -89,8 +89,17 @@ import ControlPlaceholder from './components/ControlPlaceholder.vue'
 import ControlAlteka from './components/ControlAlteka.vue'
 import ControlAudioSync from './components/ControlAudioSync.vue'
 
-var Mousetrap = require('mousetrap');
+var Mousetrap = require('mousetrap')
 import { isMobile } from 'mobile-device-detect'
+
+const set = require('lodash/set')
+const has = require("lodash/has")
+const get = require("lodash/get")
+
+let initialConfig = {
+  ...require('./defaultConfig.json'),
+  ...decode(window.location.search)
+}
 
 export default {
   name: 'App',
@@ -114,8 +123,8 @@ export default {
   },
   data: function() { 
       return {
-        config: require('./defaultConfig.json'),
-        controlVisible: true,
+        config: initialConfig,
+        controlVisible: (initialConfig.controlVisible == "false") ? false : true,
         fullscreen: false,
         showOverlay: false,
         mouseMoveTimer: null,
@@ -148,6 +157,27 @@ export default {
         deep: true
       },
     },
+}
+
+function decode(queryString) {
+  const queryStringPieces = queryString.substring(1).split("&");
+  const decodedQueryString = {};
+
+  for (const piece of queryStringPieces) {
+    let [key, value] = piece.split("=");
+    value = value || "";
+    if (has(decodedQueryString, key)) {
+      const currentValueForKey = get(decodedQueryString, key);
+      if (!Array.isArray(currentValueForKey)) {
+        set(decodedQueryString, key, [currentValueForKey, value]);
+      } else {
+        currentValueForKey.push(decodeURIComponent(value));
+      }
+    } else {
+      set(decodedQueryString, key, decodeURIComponent(value));
+    }
+  }
+  return decodedQueryString;
 }
 </script>
 
