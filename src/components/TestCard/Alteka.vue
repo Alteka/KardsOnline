@@ -127,10 +127,6 @@
     </div>
 
     <div id="centerbox">
-      <transition name="fade">
-        <img v-if="config.alteka.logo != ''" id="customLogo" :src="config.alteka.logo" />      
-      </transition>
-
       <svg viewBox="-50 -50 100 100" height="100%" width="100%">
         <defs>
           <clipPath id="clipCircle">
@@ -265,14 +261,8 @@ export default {
       
       let pillarLeft = document.getElementById("pillarLeft")
       let pillarRight = document.getElementById("pillarRight")
-      let circle = document.getElementById("clipCircle")
-      let customLogo = document.getElementById("customLogo")
+      let circle = document.getElementById("clip-me")
       let circleWidth = circle.getBoundingClientRect().width
-
-      if (customLogo) {
-        customLogo.style.width = circleWidth + 'px'
-        customLogo.style.height = (circle.getBoundingClientRect().height / 3) + 2 + 'px'
-      }
 
       if (ratio >= 1) {
         let pillarWidth = Math.round((width / 50) * 0.055) * 50
@@ -353,16 +343,6 @@ export default {
 </script>
 
 <style scoped>
-#customLogo {
-  position: absolute;
-  z-index: -10;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  clip-path: circle(66.7%);
-  background-color: #6ab42e;
-}
 .grid {
   height: 100%;
   width: 100%;
