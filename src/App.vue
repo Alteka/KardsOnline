@@ -73,8 +73,35 @@
         </el-form>
         <footer style="font-size: 85%; text-align: center;">
           <el-link type="success" href="https://alteka.solutions/kards"><i class="fas fa-link"></i> Get the free desktop app, with more features and customisation!</el-link><br />
-          <i class="fas fa-keyboard green"></i> M, I, C, F and 1-6 are also useful keyboard shortcuts 🙂
+          <i class="fas fa-keyboard green"></i> M, I, C, F and 1-6 are also useful keyboard shortcuts 🙂<br />
+          <el-button type="success" round size="small" v-on:click="shareVisible=true"><i class="fas fa-share"></i> Share</el-button>
           </footer>
+      </el-dialog>
+
+      <el-dialog :visible.sync="shareVisible"  title="Share Test Card Link"> 
+       <el-form ref="form" :model="config" label-width="120px" size="small">
+          
+          <el-row style="text-align: center; padding-bottom: 15px;">
+              Show controls on load <el-switch v-model="shareControlVisible" style="padding-left: 5px;"></el-switch><br />
+              <span style="font-size: 80%;">(Useful for loading into vMix or OBS)</span>
+          </el-row>
+
+          <el-row>
+            <el-col :span="21">
+              <el-form-item label="URL" label-width="70px">
+                <el-input v-model="shareLink" placeholder=""></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3" style="text-align: center;">
+            <el-button type="success" icon="el-icon-document-copy" size="small" round @click="copyUrl(shareLink)"></el-button>
+            </el-col>
+          </el-row>
+
+          <el-row style="text-align: center;">
+            You can share this current test card as a link!
+          </el-row>
+
+       </el-form>
       </el-dialog>
     </fullscreen>
   </div>
@@ -119,12 +146,51 @@ export default {
       this.showOverlay = true
       clearTimeout(this.mouseMoveTimer)
       this.mouseMoveTimer = setTimeout(function(){ vm.showOverlay = false }, 3000);
+    },
+    copyUrl: function(value) {
+      const el = document.createElement('textarea');  
+      el.value = value;                                 
+      el.setAttribute('readonly', '');                
+      el.style.position = 'absolute';                     
+      el.style.left = '-9999px';                      
+      document.body.appendChild(el);                  
+      const selected =  document.getSelection().rangeCount > 0  ? document.getSelection().getRangeAt(0) : false;                                    
+      el.select();                                    
+      document.execCommand('copy');                   
+      document.body.removeChild(el);                  
+      if (selected) {                                 
+        document.getSelection().removeAllRanges();    
+        document.getSelection().addRange(selected);   
+      }
+    },
+    encode: function(queryObj, nesting = "") {
+      const pairs = Object.entries(queryObj).map(([key, val]) => {
+        // Handle the nested, recursive case, where the value to encode is an object itself
+        if (typeof val === "object") {
+          return this.encode(val, nesting + `${key}.`);
+        } else {
+          // Handle base case, where the value to encode is simply a string.
+          return [nesting + key, val].map(escape).join("=");
+        }
+      })
+      return pairs.join("&");
+    }
+  },
+  computed: {
+    shareLink: function() {
+      let c = JSON.parse(JSON.stringify(this.config)) // I know... so lazy right?
+      delete c.predefineColors
+      delete c['']
+      c.controlVisible = this.shareControlVisible
+      return 'https://kards.alteka.solutions/?' + this.encode(c)
     }
   },
   data: function() { 
       return {
         config: initialConfig,
         controlVisible: (initialConfig.controlVisible == "false") ? false : true,
+        shareControlVisible: true,
+        shareVisible: false,
         fullscreen: false,
         showOverlay: false,
         mouseMoveTimer: null,
