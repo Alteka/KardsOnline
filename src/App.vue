@@ -176,6 +176,7 @@ export default {
       }
     },
     encode: function(queryObj, nesting = "") {
+      // this is heavily based on Nick Drane's work here: https://nickdrane.com/build-your-own-nested-query-string-encoder/
       const pairs = Object.entries(queryObj).map(([key, val]) => {
         // Handle the nested, recursive case, where the value to encode is an object itself
         if (typeof val === "object") {
