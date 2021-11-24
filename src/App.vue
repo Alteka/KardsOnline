@@ -21,8 +21,8 @@
             <el-col :span="5"><img src="./assets/icon.png" width="80px"/></el-col>
             <el-col :span="14">
               <p style="margin-bottom: 10px; margin-top: 0;">Kards Online <span style="font-size: 50%;">v1.0</span></p>
-              <el-button type="success" round v-on:click="toggleFullscreen" v-if="!fullscreen"><i class="fas fa-expand-arrows-alt"></i> Go Fullscreen</el-button>
-              <el-button type="danger" round v-on:click="toggleFullscreen" v-else><i class="fas fa-compress-arrows-alt"></i> Stop Fullscreen</el-button>
+              <el-button type="success" round v-on:click="toggleFullscreen" v-if="!fullscreen && this.$fullscreen.isEnabled"><i class="fas fa-expand-arrows-alt"></i> Go Fullscreen</el-button>
+              <el-button type="danger" round v-on:click="toggleFullscreen" v-if="fullscreen && this.$fullscreen.isEnabled"><i class="fas fa-compress-arrows-alt"></i> Stop Fullscreen</el-button>
             </el-col>
             <el-col :span="5"><a href="https://alteka.solutions"><img src="./assets/logo.png" width="140px"/></a></el-col>
           </el-row>
@@ -73,7 +73,7 @@
         </el-form>
         <footer style="font-size: 85%; text-align: center;">
           <el-link type="success" href="https://alteka.solutions/kards"><i class="fas fa-link"></i> Get the free desktop app, with more features and customisation!</el-link><br />
-          <i class="fas fa-keyboard green"></i> M, I, C, F and 1-6 are also useful keyboard shortcuts 🙂<br />
+          <i class="fas fa-keyboard green"></i> M, I, C and 1-6 are also useful keyboard shortcuts 🙂<br />
           <el-button type="success" round size="small" v-on:click="shareVisible=true"><i class="fas fa-share"></i> Share</el-button>
           </footer>
       </el-dialog>
@@ -88,8 +88,20 @@
 
           <el-row>
             <el-col :span="21">
-              <el-form-item label="URL" label-width="70px">
+              <el-form-item label="Full URL">
                 <el-input v-model="shareLink" placeholder=""></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3" style="text-align: center;">
+            <el-button type="success" icon="el-icon-document-copy" size="small" round @click="copyUrl(shareLink)"></el-button>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="21">
+              <el-form-item label="Simplified URL">
+                <el-input v-model="shareLinkMinimal" placeholder=""></el-input><br />
+              Only has configuration for the currently selected card.
               </el-form-item>
             </el-col>
             <el-col :span="3" style="text-align: center;">
@@ -183,6 +195,52 @@ export default {
       delete c['']
       c.controlVisible = this.shareControlVisible
       return 'https://kards.alteka.solutions/?' + this.encode(c)
+    },
+    shareLinkMinimal: function() {
+      let c = JSON.parse(JSON.stringify(this.config)) // I know... still so lazy right?
+      delete c.predefineColors
+      delete c['']
+
+      if (c.cardType == "alteka") {
+        delete c.bars
+        delete c.grid
+        delete c.audioSync
+        delete c.ramp
+        delete c.placeholder
+      } else if (c.cardType == 'bars') {
+        delete c.alteka
+        delete c.grid
+        delete c.audioSync
+        delete c.ramp
+        delete c.placeholder
+      }else if (c.cardType == 'grid') {
+        delete c.alteka
+        delete c.bars
+        delete c.audioSync
+        delete c.ramp
+        delete c.placeholder
+      } else if (c.cardType == 'audioSync') {
+        delete c.alteka
+        delete c.grid
+        delete c.bars
+        delete c.ramp
+        delete c.placeholder
+      } else if (c.cardType == 'ramp') {
+        delete c.alteka
+        delete c.grid
+        delete c.audioSync
+        delete c.bars
+        delete c.placeholder
+      } else if (c.cardType == 'placeholder') {
+        delete c.alteka
+        delete c.grid
+        delete c.audioSync
+        delete c.ramp
+        delete c.bars
+      }
+
+      c.controlVisible = this.shareControlVisible
+      return 'https://kards.alteka.solutions/?' + this.encode(c)
     }
   },
   data: function() { 
@@ -203,7 +261,6 @@ export default {
       Mousetrap.bind('m', function() { vm.config.animated = !vm.config.animated });
       Mousetrap.bind('i', function() { vm.config.showInfo = !vm.config.showInfo });
       Mousetrap.bind(['c', 'space'], function() { vm.controlVisible = !vm.controlVisible });
-      Mousetrap.bind('f', vm.toggleFullscreen());
       Mousetrap.bind(['1', 'a'], function() { vm.config.cardType = 'alteka' });
       Mousetrap.bind(['2', 'b'], function() { vm.config.cardType = 'bars' });
       Mousetrap.bind(['3', 'g'], function() { vm.config.cardType = 'grid' });
