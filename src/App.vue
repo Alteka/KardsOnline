@@ -298,9 +298,17 @@ function decode(queryString) {
         currentValueForKey.push(decodeURIComponent(value));
       }
     } else {
-      set(decodedQueryString, key, decodeURIComponent(value));
+      let v = decodeURIComponent(value);
+      if (v === "false") {
+        v = false
+      }
+      if (v === 'true') {
+        v = true
+      }
+      set(decodedQueryString, key, v);
     }
   }
+  console.log(decodedQueryString)
   return decodedQueryString;
 }
 </script>
