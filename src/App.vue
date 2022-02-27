@@ -9,7 +9,7 @@
       <transition name="fade">
         <div id="overlay" v-if="showOverlay && !isMobile">
           <img src="./assets/logo.png" width="140px" />
-          <p style="font-size: 150%; margin-top: 0px; margin-bottom: 10px;">Kards Online <span style="font-size: 50%;">v1.0</span></p>
+          <p style="font-size: 150%; margin-top: 0px; margin-bottom: 10px;">Kards Online <span style="font-size: 50%;">v1.1</span></p>
           <el-button round type="success" v-on:click="controlVisible = true"><i class="fas fa-cogs"></i> Show Controls</el-button>
           <p style="font-size: 80%;">You can also just click anywhere...</p>
         </div>
@@ -27,6 +27,7 @@
             <el-col :span="5"><a href="https://alteka.solutions"><img src="./assets/logo.png" width="140px"/></a></el-col>
           </el-row>
         <el-divider content-position="center">Select Test Card</el-divider>
+        <div v-if="config.cardType !='alteka' && config.cardType!='bars' && config.cardType!='grid' && config.cardType!='ramp' && config.cardType!='placeholder' && config.cardType!='audioSync'" style="margin: 5px; text-align:center;">The shared test card is not supported by Kards Online yet.</div>
         <el-row style="margin-left: 16px; margin-right: 16px;">
           <el-tabs type="border-card"  v-model="config.cardType" :stretch="true" style="height: 165px;">
             <el-tab-pane label="Alteka" name="alteka">
@@ -247,7 +248,7 @@ export default {
   data: function() { 
       return {
         config: initialConfig,
-        controlVisible: (initialConfig.controlVisible == "false") ? false : true,
+        controlVisible: (initialConfig.controlVisible == false) ? false : true,
         shareControlVisible: true,
         shareVisible: false,
         fullscreen: false,

@@ -4,13 +4,13 @@
 
       <div id="cardForPNG" class="testcard" :class="{animated: config.animated && config.cardType !='alteka' && config.cardType != 'audioSync'}">
           <Grid v-if="config.cardType == 'grid'" :config="config" :cardSize="cardSize" :time="time"></Grid>
-          <SMPTE v-if="config.cardType == 'bars' && config.bars.type=='smpte'" :config="config" :cardSize="cardSize" :time="time"></SMPTE>
-          <ARIB v-if="config.cardType == 'bars' && config.bars.type=='arib'" :config="config" :cardSize="cardSize" :time="time"></ARIB>
-          <Bars v-if="config.cardType == 'bars' && config.bars.type=='simple'" :config="config" :cardSize="cardSize" :time="time"></Bars>
-          <Ramp v-if="config.cardType == 'ramp'" :config="config" :cardSize="cardSize" :time="time"></Ramp>
-          <AudioSync v-if="config.cardType=='audioSync'" :config="config" :cardSize="cardSize" :time="time"></AudioSync>
-          <Placeholder v-if="config.cardType == 'placeholder'" :config="config" :cardSize="cardSize" :time="time"></Placeholder>
-          <Alteka v-if="config.cardType == 'alteka'" :config="config" :cardSize="cardSize" :time="time"></Alteka>
+          <SMPTE v-else-if="config.cardType == 'bars' && config.bars.type=='smpte'" :config="config" :cardSize="cardSize" :time="time"></SMPTE>
+          <ARIB v-else-if="config.cardType == 'bars' && config.bars.type=='arib'" :config="config" :cardSize="cardSize" :time="time"></ARIB>
+          <Bars v-else-if="config.cardType == 'bars' && config.bars.type=='simple'" :config="config" :cardSize="cardSize" :time="time"></Bars>
+          <Ramp v-else-if="config.cardType == 'ramp'" :config="config" :cardSize="cardSize" :time="time"></Ramp>
+          <AudioSync v-else-if="config.cardType=='audioSync'" :config="config" :cardSize="cardSize" :time="time"></AudioSync>
+          <Placeholder v-else-if="config.cardType == 'placeholder'" :config="config" :cardSize="cardSize" :time="time"></Placeholder>
+          <Alteka v-else :config="config" :cardSize="cardSize" :time="time"></Alteka>
       </div>
 
       <div v-if="config.animated && config.cardType !='alteka' && config.cardType !='audioSync'" class="testcard" :class="{animatedAbove: config.animated}">
